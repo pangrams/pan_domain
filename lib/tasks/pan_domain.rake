@@ -9,4 +9,15 @@ namespace :pan_domain do
 
     thor.say_status 'finish', 'Install All Domains'
   end
+
+  namespace :db do
+    desc 'Loads seed data from all domains'
+    task :seed do
+      thor.say_status 'start:', 'Seed data from All Domains'
+
+      Rake::Task['human_domain:db:seed'].invoke
+
+      thor.say_status 'finish:', 'Seed data from All Domains'
+    end
+  end
 end

@@ -15,7 +15,7 @@ namespace :human_domain do
   namespace :db do
     desc 'Loads the seed data in Human Domain to application'
     task :seed do
-      thor.say_status 'start', 'Seeding Data'
+      thor.say_status 'start', 'Seeding Human domain data'
 
       config = ActiveRecord::Base.configurations[Rails.env]
       config ||= Rails.application.config.database_configuration[Rails.env]
@@ -26,7 +26,7 @@ namespace :human_domain do
       PanDomain::Human::Engine.load_seed
 
       ActiveRecord::Base.connection_pool.disconnect!
-      thor.say_status 'finish', 'Seeding Data'
+      thor.say_status 'finish', 'Seeding Human domain data'
     end
   end
 
