@@ -5,7 +5,7 @@ require 'pan_domain/version'
 Gem::Specification.new do |spec|
   spec.name          = 'pan_domain'
   spec.version       = PanDomain::VERSION
-  spec.authors       = ['yosuajaya']
+  spec.authors       = ['Yosua Jaya Candra']
   spec.email         = ['yosuajayacandra@gmail.com']
 
   spec.summary       = 'A tool for create common tables powered by ActiveRecord'
