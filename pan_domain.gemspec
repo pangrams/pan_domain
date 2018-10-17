@@ -1,4 +1,3 @@
-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pan_domain/version'
@@ -9,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ['yosuajaya']
   spec.email         = ['yosuajayacandra@gmail.com']
 
-  spec.summary       = 'Generator for ActiveRecord Migrations'
-  spec.description   = ''
+  spec.summary       = 'A tool for create common tables powered by ActiveRecord'
+  spec.description   = 'A gem which create common tables and data' \
+                       ' which prioritize on data integrity.'
   spec.homepage      = 'https://github.com/pangrams/pan_domain'
   spec.license       = 'MIT'
 
@@ -29,9 +29,10 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.bindir        = 'exe'
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables   = ['pan_domain']
   spec.require_paths = ['lib']
+
+  spec.add_dependency 'rails', '~> 5.2'
 
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 10.0'
