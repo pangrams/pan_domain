@@ -57,6 +57,14 @@ Or install it yourself as:
 7. List available commands
         $ pan_domain --help
 
+## Test
+
+To run all tests, you can use this command in root directory:
+
+    $ rake spec
+
+Note: run `rspec` in root directory will not working.
+
 ## Contributing
 
 1. Fork it

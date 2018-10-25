@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require 'pan_domain'
 
-PanDomain::Cli.start(ARGV)
+PanDomain::CLI.start(ARGV)

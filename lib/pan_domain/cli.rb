@@ -1,7 +1,7 @@
 require 'thor'
 
 module PanDomain
-  class Cli < Thor
+  class CLI < Thor
     available_domains = []
 
     desc 'version', 'Display version'

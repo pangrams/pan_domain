@@ -1,5 +1,6 @@
 require 'rails/generators'
 require 'rails/generators/migration'
+require 'active_record'
 
 module HumanDomain
   module Generate
@@ -11,10 +12,20 @@ module HumanDomain
 
       class << self
         def next_migration_number(dirname)
+          current_migration_timestamp = current_migration_number(dirname)
+
           if ActiveRecord::Base.timestamped_migrations
-            Time.new.utc.strftime("%Y%m%d%H%M%S")
+            timestamp_str = Time.new.utc.strftime("%Y%m%d%H%M%S")
+
+            # Check if timestamp is the same with previous migration
+            # due to fast generation in the same second
+            if timestamp_str == current_migration_timestamp.to_s
+              "%.3d" % (current_migration_timestamp + 1)
+            else
+              timestamp_str
+            end
           else
-            "%.3d" % (current_migration_number(dirname) + 1)
+            "%.3d" % (current_migration_timestamp + 1)
           end
         end
       end

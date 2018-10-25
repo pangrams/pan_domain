@@ -13,6 +13,12 @@ module PanDomain
 
       self.table_name = 'blood_group_names'
 
+      validates :name, :symbol,
+                presence: true,
+                uniqueness: {
+                  scope: :blood_classification_system_id, case_sensitive: false
+                }
+
       belongs_to :blood_classification_system
     end
   end

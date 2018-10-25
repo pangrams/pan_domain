@@ -3,7 +3,7 @@ thor = Thor.new
 namespace :human_domain do
   namespace :generate do
     desc 'Generates all migrations in Human Domain to application'
-    task :migrations do
+    task :migrations => :environment do
       thor.say_status 'start', 'Generate migrations'
 
       system 'rails g human_domain:generate:migrations'
@@ -14,7 +14,7 @@ namespace :human_domain do
 
   namespace :db do
     desc 'Loads the seed data in Human Domain to application'
-    task :seed do
+    task :seed => :environment do
       thor.say_status 'start', 'Seeding Human domain data'
 
       config = ActiveRecord::Base.configurations[Rails.env]
@@ -25,13 +25,12 @@ namespace :human_domain do
 
       PanDomain::Human::Engine.load_seed
 
-      ActiveRecord::Base.connection_pool.disconnect!
       thor.say_status 'finish', 'Seeding Human domain data'
     end
   end
 
   desc 'Install Human Domain to application'
-  task :install do
+  task :install => :environment do
     thor.say_status 'start', 'Install Human Domain'
 
     Rake::Task['human_domain:generate:migrations'].invoke

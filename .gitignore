@@ -4,6 +4,12 @@
 /coverage/
 /doc/
 /pkg/
+/spec/sample_app/db/*.sqlite3
+/spec/sample_app/db/*.sqlite3-journal
+/spec/sample_app/db/log/*.log
+/spec/sample_app/log/*.log
+/spec/sample_app/tmp/
+/spec/sample_app/.sass-cache
 /spec/reports/
 /tmp/
 
