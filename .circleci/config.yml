@@ -70,150 +70,61 @@ run-bundle-install: &run_bundle_install
 
 run-all-tests: &run_all_tests
   name: Run all tests
-  command:
+  command: |
     echo "
       --color
       --require spec_helper" > .rspec
     bundle exec rake spec
+
+run-all-steps: &run_all_steps
+  steps:
+    - restore_cache:
+        key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
+    - restore_cache:
+        key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
+    - checkout
+    - run: *install_gem_dependencies
+    - run: *run_database_configuration
+    - run: *run_bundle_install
+    - run: *run_create_database
+    - run: *run_all_tests
+    - save_cache:
+        key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
+        paths: ~/pan_domain/
+    - save_cache:
+        key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
+        paths: vendor/bundle
 
 
 version: 2
 jobs:
   ruby_2_3_and_postgres_9_5_test:
     <<: *ruby_2_3_and_postgres_9_5_env
-    steps:
-      - checkout
-      - run: *install_gem_dependencies
-      - run: *run_database_configuration
-      - run: *run_bundle_install
-      - run: *run_create_database
-      - run: *run_all_tests
-      - save_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/pan_domain/
-      - save_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-          paths: vendor/bundle
+    <<: *run_all_steps
   
   ruby_2_3_and_postgres_9_5_14_test:
     <<: *ruby_2_3_and_postgres_9_5_14_env
-    steps:
-      - restore_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-      - checkout
-      - run: *install_gem_dependencies
-      - run: *run_database_configuration
-      - run: *run_bundle_install
-      - run: *run_create_database
-      - run: *run_all_tests
-      - save_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/pan_domain/
-      - save_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-          paths: vendor/bundle
+    <<: *run_all_steps
 
   ruby_2_3_and_postgres_9_6_test:
     <<: *ruby_2_3_and_postgres_9_6_env
-    steps:
-      - restore_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-      - checkout
-      - run: *install_gem_dependencies
-      - run: *run_database_configuration
-      - run: *run_bundle_install
-      - run: *run_create_database
-      - run: *run_all_tests
-      - save_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/pan_domain/
-      - save_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-          paths: vendor/bundle
+    <<: *run_all_steps
 
   ruby_2_3_and_postgres_9_6_10_test:
     <<: *ruby_2_3_and_postgres_9_6_10_env
-    steps:
-      - restore_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-      - checkout
-      - run: *install_gem_dependencies
-      - run: *run_database_configuration
-      - run: *run_bundle_install
-      - run: *run_create_database
-      - run: *run_all_tests
-      - save_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/pan_domain/
-      - save_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-          paths: vendor/bundle
+    <<: *run_all_steps
 
   ruby_2_3_and_postgres_10_test:
     <<: *ruby_2_3_and_postgres_10_env
-    steps:
-      - restore_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-      - checkout
-      - run: *install_gem_dependencies
-      - run: *run_database_configuration
-      - run: *run_bundle_install
-      - run: *run_create_database
-      - run: *run_all_tests
-      - save_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/pan_domain/
-      - save_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-          paths: vendor/bundle
+    <<: *run_all_steps
 
   ruby_2_3_and_postgres_10_5_test:
     <<: *ruby_2_3_and_postgres_10_5_env
-    steps:
-      - restore_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-      - checkout
-      - run: *install_gem_dependencies
-      - run: *run_database_configuration
-      - run: *run_bundle_install
-      - run: *run_create_database
-      - run: *run_all_tests
-      - save_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/pan_domain/
-      - save_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-          paths: vendor/bundle
+    <<: *run_all_steps
 
   ruby_2_3_and_postgres_11_0_test:
     <<: *ruby_2_3_and_postgres_11_0_env
-    steps:
-      - restore_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-      - checkout
-      - run: *install_gem_dependencies
-      - run: *run_database_configuration
-      - run: *run_bundle_install
-      - run: *run_create_database
-      - run: *run_all_tests
-      - save_cache:
-          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
-          paths: ~/pan_domain/
-      - save_cache:
-          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
-          paths: vendor/bundle
+    <<: *run_all_steps
 
 workflows:
   version: 2
