@@ -39,14 +39,6 @@ postgres-11-0: &postgres_ver_10_0
   docker:
     - image: postgres:10.0-alpine
 
-
-min-ruby-env: &min_ruby_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    <<: *default_postgres_ver
-
-
 workflows:
   version: 2
   ruby-2-3-and-postgres-9-5:
@@ -54,7 +46,7 @@ workflows:
       working_directory: ~/pan_domain/
       docker:
         - image: ruby:2.3-alpine
-        <<: *postgres_ver_9_5
+        - image: postgres:9.5-alpine
       steps:
         - checkout
         - run:
@@ -69,7 +61,7 @@ workflows:
       working_directory: ~/pan_domain/
       docker:
         - image: ruby:2.3-alpine
-        <<: *default_postgres_ver
+        - image: postgres:9.5.14
       steps:
         - checkout
         - run:
@@ -84,7 +76,7 @@ workflows:
       working_directory: ~/pan_domain/
       docker:
         - image: ruby:2.3-alpine
-        <<: *postgres_ver_9_6
+        - image: postgres:9.6-alpine
       steps:
         - checkout
         - run:
