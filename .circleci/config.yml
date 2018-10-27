@@ -69,7 +69,10 @@ workflows:
   
   ruby-2-3-and-postgres-9-5-14:
     jobs:
-      <<: *min_ruby_env
+      working_directory: ~/pan_domain/
+      docker:
+        - image: ruby:2.3-alpine
+        <<: *default_postgres_ver
       steps:
         - checkout
         - run:
