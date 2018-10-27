@@ -99,16 +99,14 @@ jobs:
           name: Install gem dependencies
           command: |
             apk add --update tzdata
-            apk add git
-            apk add build-base
-            apk add postgresql-dev
+            apk add git build-base postgresql-dev
       - run:
           name: Configure database
           command: |
             cd spec/sample_app
             echo "test:
               adapter: postgresql
-              database: test_pan_domain_{{ .Environment.CIRCLE_NODE_INDEX }}
+              database: test_pan_domain
               username: postgres
               pool: 5
               host: 127.0.0.1" > config/database.yml
