@@ -1,0 +1,80 @@
+default-postgres-ver: &default_postgres_ver
+  docker:
+    - image: postgres:9.5.14
+
+postgres-9-5: &postgres_ver_9_5
+  docker:
+    - image: postgres:9.5-alpine
+
+postgres-9-6: &postgres_ver_9_6
+  docker:
+    - image: postgres:9.6-alpine
+
+postgres-9-6-10: &postgres_ver_9_6_10
+  docker:
+    - image: postgres:9.6.10-alpine
+
+postgres-10: &postgres_ver_10
+  docker:
+    - image: postgres:10-alpine
+
+postgres-10-1: &postgres_ver_10_1
+  docker:
+    - image: postgres:10.1-alpine
+
+postgres-10-2: &postgres_ver_10_2
+  docker:
+    - image: postgres:10.2-alpine
+
+postgres-10-3: &postgres_ver_10_3
+  docker:
+    - image: postgres:10.3-alpine
+
+postgres-10-4: &postgres_ver_10_4
+  docker:
+    - image: postgres:10.4-alpine
+
+postgres-10-5: &postgres_ver_10_5
+  docker:
+    - image: postgres:10.5-alpine
+
+postgres-11-0: &postgres_ver_10_0
+  docker:
+    - image: postgres:10.0-alpine
+
+
+min-ruby-env: &min_ruby_env
+  working_directory: ~/pan_domain/
+  docker:
+    - image: ruby:2.3-alpine
+    <<: *default_postgres_ver
+
+
+workflows:
+  version: 2
+  ruby-2-3-and-postgres-9-5:
+    jobs:
+      working_directory: ~/pan_domain/
+      docker:
+        - image: ruby:2.3-alpine
+        <<: *postgres_ver_9_5
+      steps:
+        - checkout
+        - run:
+            name: Install Bundle dependencies
+            command: bundle install
+        - run:
+            name: Run all tests
+            command: rake spec
+  
+  ruby-2-3-and-postgres-9-5-14:
+    jobs:
+      <<: *min_ruby_env
+      steps:
+        - checkout
+        - run:
+            name: Install Bundle dependencies
+            command: bundle install
+        - run:
+            name: Run all tests
+            command: rake spec
