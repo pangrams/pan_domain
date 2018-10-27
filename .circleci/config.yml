@@ -112,6 +112,11 @@ jobs:
               username: postgres
               pool: 5
               host: 127.0.0.1" > config/database.yml
+      - run:
+          name: Create Database
+          command: |
+            cd spec/sample_app
+            rake db:create
       - run: *run_bundle_install
       - run: *run_all_tests
 
@@ -120,6 +125,6 @@ workflows:
   version: 2
   ruby-2-3-and-postgres-database-tests:
     jobs:
-      - ruby_2_3_and_postgres_9_5_test
-      - ruby_2_3_and_postgres_9_5_14_test
+      # - ruby_2_3_and_postgres_9_5_test
+      # - ruby_2_3_and_postgres_9_5_14_test
       - ruby_2_3_and_postgres_9_6_test
