@@ -66,7 +66,10 @@ jobs:
     <<: *ruby_2_3_and_postgres_9_5_env
     steps:
       - checkout
-      - run: apk add git
+      - run: apt-get update -y
+      - run: apt-get install git -y
+      - run: apt-get install gcc -y
+      - run: apt-get install make -y
       - run: *run_bundle_install
       - run: *run_all_tests
   
@@ -74,6 +77,10 @@ jobs:
     <<: *ruby_2_3_and_postgres_9_5_14_env
     steps:
       - checkout
+      - run: apt-get update -y
+      - run: apt-get install git -y
+      - run: apt-get install gcc -y
+      - run: apt-get install make -y
       - run: *run_bundle_install
       - run: *run_all_tests
 
@@ -81,6 +88,10 @@ jobs:
     <<: *ruby_2_3_and_postgres_9_6_env
     steps:
       - checkout
+      - run: apt-get update -y
+      - run: apt-get install git -y
+      - run: apt-get install gcc -y
+      - run: apt-get install make -y
       - run: *run_bundle_install
       - run: *run_all_tests
 
