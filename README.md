@@ -1,6 +1,6 @@
 # PanDomain
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/a2acd2f2ef5729e95b70/maintainability)](https://codeclimate.com/github/pangrams/pan_domain/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a2acd2f2ef5729e95b70/maintainability)](https://codeclimate.com/github/pangrams/pan_domain/maintainability) [![CircleCI](https://circleci.com/gh/pangrams/pan_domain/tree/master.svg?style=svg)](https://circleci.com/gh/pangrams/pan_domain/tree/master)
 
 ### Availabel domains:
 - Human

@@ -1,0 +1,224 @@
+install-gem-dependencies: &install_gem_dependencies
+  name: Install gem dependencies
+  command: |
+    apk add --update tzdata
+    apk add git build-base postgresql-dev
+
+run-database-configuration: &run_database_configuration
+  name: Configure database
+  command: |
+    cd spec/sample_app
+    echo "test:
+      adapter: postgresql
+      host: 127.0.0.1
+      username: postgres
+      pool: 5
+      timeout: 5000
+      database: test_pan_domain" > config/database.yml
+
+run-create-database: &run_create_database
+  name: Create Database
+  command: |
+    cd spec/sample_app
+    RAILS_ENV=test bundle exec rake db:create
+
+run-bundle-install: &run_bundle_install
+  name: Install Bundle dependencies
+  command: bundle install --path vendor/bundle
+
+run-all-tests: &run_all_tests
+  name: Run all tests
+  command: |
+    echo "
+      --color
+      --require spec_helper" > .rspec
+    bundle exec rake spec
+
+run-all-steps: &run_all_steps
+  steps:
+    - restore_cache:
+        key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
+    - restore_cache:
+        key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
+    - checkout
+    - run: *install_gem_dependencies
+    - run: *run_database_configuration
+    - run: *run_bundle_install
+    - run: *run_create_database
+    - run: *run_all_tests
+    - save_cache:
+        key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
+        paths: ~/pan_domain/
+    - save_cache:
+        key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
+        paths: vendor/bundle
+
+
+version: 2
+jobs:
+  ruby_2_3_8_and_postgres_9_5_14_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3.8-alpine
+      - image: postgres:9.5.14-alpine
+    <<: *run_all_steps
+
+  ruby_2_3_8_and_postgres_9_6_10_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3.8-alpine
+      - image: postgres:9.6.10-alpine
+    <<: *run_all_steps
+
+  ruby_2_3_8_and_postgres_10_5_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3.8-alpine
+      - image: postgres:10.5-alpine
+    <<: *run_all_steps
+
+  ruby_2_3_8_and_postgres_11_0_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3.8-alpine
+      - image: postgres:11.0-alpine
+    <<: *run_all_steps
+
+  ruby_2_4_5_and_postgres_9_5_14_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:9.5.14-alpine
+    <<: *run_all_steps
+
+  ruby_2_4_5_and_postgres_9_6_10_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:9.6.10-alpine
+    <<: *run_all_steps
+
+  ruby_2_4_5_and_postgres_10_5_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:10.5-alpine
+    <<: *run_all_steps
+
+  ruby_2_4_5_and_postgres_11_0_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:11.0-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_and_postgres_9_5_14_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5-alpine
+      - image: postgres:9.5.14-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_and_postgres_9_6_10_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5-alpine
+      - image: postgres:9.6.10-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_and_postgres_10_5_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5-alpine
+      - image: postgres:10.5-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_and_postgres_11_0_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5-alpine
+      - image: postgres:11.0-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_3_and_postgres_9_5_14_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5.3-alpine
+      - image: postgres:9.5.14-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_3_and_postgres_9_6_10_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5.3-alpine
+      - image: postgres:9.6.10-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_3_and_postgres_10_5_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5.3-alpine
+      - image: postgres:10.5-alpine
+    <<: *run_all_steps
+
+  ruby_2_5_3_and_postgres_11_0_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.5.3-alpine
+      - image: postgres:11.0-alpine
+    <<: *run_all_steps
+
+
+workflows:
+  version: 2
+  ruby-2-3-8-with-postgreSQL-database-tests:
+    jobs:
+      - ruby_2_3_8_and_postgres_9_5_14_test
+      - ruby_2_3_8_and_postgres_9_6_10_test:
+          requires:
+            - ruby_2_3_8_and_postgres_9_5_14_test
+      - ruby_2_3_8_and_postgres_10_5_test:
+          requires:
+            - ruby_2_3_8_and_postgres_9_5_14_test
+      - ruby_2_3_8_and_postgres_11_0_test:
+          requires:
+            - ruby_2_3_8_and_postgres_9_5_14_test
+
+  ruby-2-4-5-with-postgreSQL-database-tests:
+    jobs:
+      - ruby_2_4_5_and_postgres_9_5_14_test
+      - ruby_2_4_5_and_postgres_9_6_10_test:
+          requires:
+            - ruby_2_4_5_and_postgres_9_5_14_test
+      - ruby_2_4_5_and_postgres_10_5_test:
+          requires:
+            - ruby_2_4_5_and_postgres_9_5_14_test
+      - ruby_2_4_5_and_postgres_11_0_test:
+          requires:
+            - ruby_2_4_5_and_postgres_9_5_14_test
+
+  ruby-2-5-with-postgreSQL-database-tests:
+    jobs:
+      - ruby_2_5_and_postgres_9_5_14_test
+      - ruby_2_5_and_postgres_9_6_10_test:
+          requires:
+            - ruby_2_5_and_postgres_9_5_14_test
+      - ruby_2_5_and_postgres_10_5_test:
+          requires:
+            - ruby_2_5_and_postgres_9_5_14_test
+      - ruby_2_5_and_postgres_11_0_test:
+          requires:
+            - ruby_2_5_and_postgres_9_5_14_test
+
+  ruby-2-5-3-with-postgreSQL-database-tests:
+    jobs:
+      - ruby_2_5_3_and_postgres_9_5_14_test
+      - ruby_2_5_3_and_postgres_9_6_10_test:
+          requires:
+            - ruby_2_5_3_and_postgres_9_5_14_test
+      - ruby_2_5_3_and_postgres_10_5_test:
+          requires:
+            - ruby_2_5_3_and_postgres_9_5_14_test
+      - ruby_2_5_3_and_postgres_11_0_test:
+          requires:
+            - ruby_2_5_3_and_postgres_9_5_14_test
