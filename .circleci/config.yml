@@ -84,12 +84,38 @@ jobs:
       - image: postgres:11.0-alpine
     <<: *run_all_steps
 
-  
+  ruby_2_4_5_and_postgres_9_5_14_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:9.5.14-alpine
+    <<: *run_all_steps
+
+  ruby_2_4_5_and_postgres_9_6_10_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:9.6.10-alpine
+    <<: *run_all_steps
+
+  ruby_2_4_5_and_postgres_10_5_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:10.5-alpine
+    <<: *run_all_steps
+
+  ruby_2_4_5_and_postgres_11_0_test:
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.4.5-alpine
+      - image: postgres:11.0-alpine
+    <<: *run_all_steps
 
 
 workflows:
   version: 2
-  ruby-2-3-and-postgres-database-tests:
+  ruby-2-3-8-with-postgreSQL-database-tests:
     jobs:
       - ruby_2_3_8_and_postgres_9_5_14_test
       - ruby_2_3_8_and_postgres_9_6_10_test:
@@ -101,3 +127,16 @@ workflows:
       - ruby_2_3_8_and_postgres_11_0_test:
           requires:
             - ruby_2_3_8_and_postgres_9_5_14_test
+
+  ruby-2-4-5-with-postgreSQL-database-tests:
+    jobs:
+      - ruby_2_4_5_and_postgres_9_5_14_test
+      - ruby_2_4_5_and_postgres_9_6_10_test:
+          requires:
+            - ruby_2_4_5_and_postgres_9_5_14_test
+      - ruby_2_4_5_and_postgres_10_5_test:
+          requires:
+            - ruby_2_4_5_and_postgres_9_5_14_test
+      - ruby_2_4_5_and_postgres_11_0_test:
+          requires:
+            - ruby_2_4_5_and_postgres_9_5_14_test
