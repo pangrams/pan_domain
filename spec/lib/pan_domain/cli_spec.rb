@@ -2,25 +2,25 @@ require 'pan_domain/cli'
 
 describe PanDomain::CLI do
   describe '--version' do
-    it 'displays "PanDomain {VERSION}\n"' do
+    it 'displays "PanDomain {VERSION}"' do
       expect { PanDomain::CLI.start ['--version'] }.to output(
-        "PanDomain #{PanDomain::VERSION}\n"
+        /^PanDomain \d+.\d+.\d+(.rc\d+)?$/
       ).to_stdout
     end
   end
 
   describe '-v' do
-    it 'displays "PanDomain {VERSION}\n"' do
+    it 'displays "PanDomain {VERSION}"' do
       expect { PanDomain::CLI.start ['-v'] }.to output(
-        "PanDomain #{PanDomain::VERSION}\n"
+        /^PanDomain \d+.\d+.\d+(.rc\d+)?$/
       ).to_stdout
     end
   end
 
   describe 'version' do
-    it 'displays "PanDomain {VERSION}\n"' do
+    it 'displays "PanDomain {VERSION}"' do
       expect { PanDomain::CLI.start ['version'] }.to output(
-        "PanDomain #{PanDomain::VERSION}\n"
+        /^PanDomain \d+.\d+.\d+(.rc\d+)?$/
       ).to_stdout
     end
   end
