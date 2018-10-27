@@ -16,7 +16,7 @@ ruby-2-3-and-postgres-9-6-env: &ruby_2_3_and_postgres_9_6_env
   working_directory: ~/pan_domain/
   shell: /bin/bash --login
   docker:
-    - image: ruby:2.3-slim
+    - image: ruby:2.3-alpine
     - image: postgres:9.6-alpine
 
 postgres-9-6-10: &postgres_ver_9_6_10
@@ -70,6 +70,7 @@ jobs:
       - run: apt-get install git -y
       - run: apt-get install gcc -y
       - run: apt-get install make -y
+      - run: apt-get install libpq-dev -y
       - run: *run_bundle_install
       - run: *run_all_tests
   
@@ -81,6 +82,7 @@ jobs:
       - run: apt-get install git -y
       - run: apt-get install gcc -y
       - run: apt-get install make -y
+      - run: apt-get install libpq-dev -y
       - run: *run_bundle_install
       - run: *run_all_tests
 
@@ -88,10 +90,9 @@ jobs:
     <<: *ruby_2_3_and_postgres_9_6_env
     steps:
       - checkout
-      - run: apt-get update -y
-      - run: apt-get install git -y
-      - run: apt-get install gcc -y
-      - run: apt-get install make -y
+      - run: apk add git
+      - run: apk add make
+      - run: apk add gcc
       - run: *run_bundle_install
       - run: *run_all_tests
 
