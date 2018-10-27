@@ -4,8 +4,6 @@ ruby-2-3-and-postgres-9-5-env: &ruby_2_3_and_postgres_9_5_env
   docker:
     - image: ruby:2.3-slim
     - image: postgres:9.5-alpine
-      environment:
-        PGHOST: 127.0.0.1
 
 ruby-2-3-and-postgres-9-5-14-env: &ruby_2_3_and_postgres_9_5_14_env
   working_directory: ~/pan_domain/
@@ -13,16 +11,12 @@ ruby-2-3-and-postgres-9-5-14-env: &ruby_2_3_and_postgres_9_5_14_env
   docker:
     - image: ruby:2.3-slim
     - image: postgres:9.5.14-alpine
-      environment:
-        PGHOST: 127.0.0.1
 
 ruby-2-3-and-postgres-9-6-env: &ruby_2_3_and_postgres_9_6_env
   working_directory: ~/pan_domain/
   docker:
     - image: ruby:2.3-alpine
     - image: postgres:9.6-alpine
-      environment:
-        PGHOST: 127.0.0.1
 
 postgres-9-6-10: &postgres_ver_9_6_10
   docker:
@@ -56,9 +50,27 @@ postgres-11-0: &postgres_ver_10_0
   docker:
     - image: postgres:10.0-alpine
 
+run-database-configuration: *run_database_configuration
+  name: Configure database
+  command: |
+    cd spec/sample_app
+    echo "test:
+      adapter: postgresql
+      host: 127.0.0.1
+      username: postgres
+      pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+      timeout: 5000
+      database: test_pan_domain" > config/database.yml
+
+run-create-database: *run_create_database
+  name: Create Database
+  command: |
+    cd spec/sample_app
+    RAILS_ENV=test rake db:create
+
 run-bundle-install: &run_bundle_install
   name: Install Bundle dependencies
-  command: bundle install
+  command: bundle install --path vendor/bundle
 
 run-all-tests: &run_all_tests
   name: Run all tests
@@ -94,29 +106,26 @@ jobs:
   ruby_2_3_and_postgres_9_6_test:
     <<: *ruby_2_3_and_postgres_9_6_env
     steps:
+      - restore_cache:
+          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
       - checkout
       - run:
           name: Install gem dependencies
           command: |
             apk add --update tzdata
             apk add git build-base postgresql-dev
-      - run:
-          name: Configure database
-          command: |
-            cd spec/sample_app
-            echo "test:
-              adapter: postgresql
-              database: test_pan_domain
-              username: postgres
-              pool: 5
-              host: 127.0.0.1" > config/database.yml
+      - run: *run_database_configuration
       - run: *run_bundle_install
-      - run:
-          name: Create Database
-          command: |
-            cd spec/sample_app
-            RAILS_ENV=test rake db:create
+      - run: *run_create_database
       - run: *run_all_tests
+      - save_cache:
+          key: pan_domain-repository-cache-v1-{{ .Environment.CIRCLE_SHA1 }}
+          paths: ~/pan_domain/
+      - save_cache:
+          key: gems-cache-v1-{{ checksum "Gemfile.lock" }}
+          paths: vendor/bundle
 
 
 workflows:
