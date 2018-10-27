@@ -216,9 +216,15 @@ workflows:
   ruby-2-3-and-postgres-database-tests:
     jobs:
       - ruby_2_3_and_postgres_9_5_test
-      - ruby_2_3_and_postgres_9_5_14_test
-      - ruby_2_3_and_postgres_9_6_test
-      - ruby_2_3_and_postgres_9_6_10_test
-      - ruby_2_3_and_postgres_10_test
-      - ruby_2_3_and_postgres_10_5_test
-      - ruby_2_3_and_postgres_11_0_test
+      - ruby_2_3_and_postgres_9_5_14_test:
+          requires: ruby_2_3_and_postgres_9_5_test
+      - ruby_2_3_and_postgres_9_6_test:
+          requires: ruby_2_3_and_postgres_9_5_test
+      - ruby_2_3_and_postgres_9_6_10_test:
+          requires: ruby_2_3_and_postgres_9_5_test
+      - ruby_2_3_and_postgres_10_test:
+          requires: ruby_2_3_and_postgres_9_5_test
+      - ruby_2_3_and_postgres_10_5_test:
+          requires: ruby_2_3_and_postgres_9_5_test
+      - ruby_2_3_and_postgres_11_0_test:
+          requires: ruby_2_3_and_postgres_9_5_test
