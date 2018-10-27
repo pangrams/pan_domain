@@ -13,6 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/pangrams/pan_domain'
   spec.license     = 'MIT'
 
+  spec.required_ruby_version = '>= 2.3.8'
+
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
   spec.metadata['source_code_uri']   = 'https://github.com/pangrams/pan_domain'
 
