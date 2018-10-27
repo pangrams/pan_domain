@@ -1,4 +1,4 @@
-require 'pan_domain/cli'
+require 'pan_domain'
 
 describe PanDomain::CLI do
   describe '--version' do
