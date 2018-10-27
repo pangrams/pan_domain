@@ -1,15 +1,13 @@
 ruby-2-3-and-postgres-9-5-env: &ruby_2_3_and_postgres_9_5_env
   working_directory: ~/pan_domain/
-  shell: /bin/bash --login
   docker:
-    - image: ruby:2.3-slim
+    - image: ruby:2.3-alpine
     - image: postgres:9.5-alpine
 
 ruby-2-3-and-postgres-9-5-14-env: &ruby_2_3_and_postgres_9_5_14_env
   working_directory: ~/pan_domain/
-  shell: /bin/bash --login
   docker:
-    - image: ruby:2.3-slim
+    - image: ruby:2.3-alpine
     - image: postgres:9.5.14-alpine
 
 ruby-2-3-and-postgres-9-6-env: &ruby_2_3_and_postgres_9_6_env
