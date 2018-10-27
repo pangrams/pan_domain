@@ -78,3 +78,18 @@ workflows:
         - run:
             name: Run all tests
             command: rake spec
+
+  ruby-2-3-and-postgres-9-6:
+    jobs:
+      working_directory: ~/pan_domain/
+      docker:
+        - image: ruby:2.3-alpine
+        <<: *postgres_ver_9_6
+      steps:
+        - checkout
+        - run:
+            name: Install Bundle dependencies
+            command: bundle install
+        - run:
+            name: Run all tests
+            command: rake spec
