@@ -70,7 +70,11 @@ run-bundle-install: &run_bundle_install
 
 run-all-tests: &run_all_tests
   name: Run all tests
-  command: bundle exec rake spec
+  command:
+    echo "
+      --color
+      --require spec_helper" > .rspec
+    bundle exec rake spec
 
 
 version: 2
