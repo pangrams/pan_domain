@@ -12,11 +12,12 @@ Gem::Specification.new do |spec|
                      ' which prioritize on data integrity.'
   spec.homepage    = 'https://github.com/pangrams/pan_domain'
   spec.license     = 'MIT'
+  spec.metadata    = {
+    'allowed_push_host' => 'https://rubygems.org',
+    'source_code_uri'   => 'https://github.com/pangrams/pan_domain'
+  }
 
   spec.required_ruby_version = '>= 2.3.8'
-
-  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
-  spec.metadata['source_code_uri']   = 'https://github.com/pangrams/pan_domain'
 
   spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
     `git ls-files -z`.split("\x0").reject do |f|
