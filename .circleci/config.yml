@@ -1,14 +1,11 @@
 default-postgres-ver: &default_postgres_ver
-  docker:
-    - image: postgres:9.5.14
+  - image: postgres:9.5.14
 
 postgres-9-5: &postgres_ver_9_5
-  docker:
-    - image: postgres:9.5-alpine
+  - image: postgres:9.5-alpine
 
 postgres-9-6: &postgres_ver_9_6
-  docker:
-    - image: postgres:9.6-alpine
+  - image: postgres:9.6-alpine
 
 postgres-9-6-10: &postgres_ver_9_6_10
   docker:
