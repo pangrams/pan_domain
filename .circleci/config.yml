@@ -90,9 +90,13 @@ jobs:
     <<: *ruby_2_3_and_postgres_9_6_env
     steps:
       - checkout
-      - run: apk add git
-      - run: apk add make
-      - run: apk add gcc
+      - run:
+          name: Install gem dependencies
+          command: |
+            apk add --update tzdata
+            apk add git
+            apk add build-base
+            apk add postgresql-dev
       - run: *run_bundle_install
       - run: *run_all_tests
 
