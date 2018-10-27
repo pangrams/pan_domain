@@ -50,7 +50,7 @@ postgres-11-0: &postgres_ver_10_0
   docker:
     - image: postgres:10.0-alpine
 
-run-database-configuration: *run_database_configuration
+run-database-configuration: &run_database_configuration
   name: Configure database
   command: |
     cd spec/sample_app
@@ -62,7 +62,7 @@ run-database-configuration: *run_database_configuration
       timeout: 5000
       database: test_pan_domain" > config/database.yml
 
-run-create-database: *run_create_database
+run-create-database: &run_create_database
   name: Create Database
   command: |
     cd spec/sample_app
