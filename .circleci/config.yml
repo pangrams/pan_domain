@@ -1,11 +1,20 @@
-default-postgres-ver: &default_postgres_ver
-  - image: postgres:9.5.14
+ruby-2-3-and-postgres-9-5-env: &ruby_2_3_and_postgres_9_5_env
+  working_directory: ~/pan_domain/
+  docker:
+    - image: ruby:2.3-alpine
+    - image: postgres:9.5-alpine
 
-postgres-9-5: &postgres_ver_9_5
-  - image: postgres:9.5-alpine
+ruby-2-3-and-postgres-9-5-14-env: &ruby_2_3_and_postgres_9_5_14_env
+  working_directory: ~/pan_domain/
+  docker:
+    - image: ruby:2.3-alpine
+    - image: postgres:9.5.14-alpine
 
-postgres-9-6: &postgres_ver_9_6
-  - image: postgres:9.6-alpine
+ruby-2-3-and-postgres-9-6-env: &ruby_2_3_and_postgres_9_6_env
+  working_directory: ~/pan_domain/
+  docker:
+    - image: ruby:2.3-alpine
+    - image: postgres:9.6-alpine
 
 postgres-9-6-10: &postgres_ver_9_6_10
   docker:
@@ -39,49 +48,43 @@ postgres-11-0: &postgres_ver_10_0
   docker:
     - image: postgres:10.0-alpine
 
+run-bundle-install: &run_bundle_install
+  name: Install Bundle dependencies
+  command: bundle install
+
+run-all-tests: &run_all_tests
+  name: Run all tests
+  command: rake spec
+
+
+version: 2
+jobs:
+  ruby_2_3_and_postgres_9_5_test:
+    <<: *ruby_2_3_and_postgres_9_5_env
+    steps:
+      - checkout
+      - run: *run_bundle_install
+      - run: *run_all_tests
+  
+  ruby_2_3_and_postgres_9_5_14_test:
+    <<: *ruby_2_3_and_postgres_9_5_14_env
+    steps:
+      - checkout
+      - run: *run_bundle_install
+      - run: *run_all_tests
+
+  ruby_2_3_and_postgres_9_6_test:
+    <<: *ruby_2_3_and_postgres_9_6_env
+    steps:
+      - checkout
+      - run: *run_bundle_install
+      - run: *run_all_tests
+
+
 workflows:
   version: 2
-  ruby-2-3-and-postgres-9-5:
+  ruby-2-3-and-postgres-database-tests:
     jobs:
-      working_directory: ~/pan_domain/
-      docker:
-        - image: ruby:2.3-alpine
-        - image: postgres:9.5-alpine
-      steps:
-        - checkout
-        - run:
-            name: Install Bundle dependencies
-            command: bundle install
-        - run:
-            name: Run all tests
-            command: rake spec
-  
-  ruby-2-3-and-postgres-9-5-14:
-    jobs:
-      working_directory: ~/pan_domain/
-      docker:
-        - image: ruby:2.3-alpine
-        - image: postgres:9.5.14
-      steps:
-        - checkout
-        - run:
-            name: Install Bundle dependencies
-            command: bundle install
-        - run:
-            name: Run all tests
-            command: rake spec
-
-  ruby-2-3-and-postgres-9-6:
-    jobs:
-      working_directory: ~/pan_domain/
-      docker:
-        - image: ruby:2.3-alpine
-        - image: postgres:9.6-alpine
-      steps:
-        - checkout
-        - run:
-            name: Install Bundle dependencies
-            command: bundle install
-        - run:
-            name: Run all tests
-            command: rake spec
+      - ruby_2_3_and_postgres_9_5_test
+      - ruby_2_3_and_postgres_9_5_14_test
+      - ruby_2_3_and_postgres_9_6_test
