@@ -1,45 +1,3 @@
-ruby-2-3-and-postgres-9-5-env: &ruby_2_3_and_postgres_9_5_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    - image: postgres:9.5-alpine
-
-ruby-2-3-and-postgres-9-5-14-env: &ruby_2_3_and_postgres_9_5_14_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    - image: postgres:9.5.14-alpine
-
-ruby-2-3-and-postgres-9-6-env: &ruby_2_3_and_postgres_9_6_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    - image: postgres:9.6-alpine
-
-postgres-9-6-10: &ruby_2_3_and_postgres_9_6_10_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    - image: postgres:9.6.10-alpine
-
-postgres-10: &ruby_2_3_and_postgres_10_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    - image: postgres:10-alpine
-
-postgres-10-5: &ruby_2_3_and_postgres_10_5_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    - image: postgres:10.5-alpine
-
-postgres-11-0: &ruby_2_3_and_postgres_11_0_env
-  working_directory: ~/pan_domain/
-  docker:
-    - image: ruby:2.3-alpine
-    - image: postgres:11.0-alpine
-
 install-gem-dependencies: &install_gem_dependencies
   name: Install gem dependencies
   command: |
@@ -98,54 +56,46 @@ run-all-steps: &run_all_steps
 
 version: 2
 jobs:
-  ruby_2_3_and_postgres_9_5_test:
-    <<: *ruby_2_3_and_postgres_9_5_env
-    <<: *run_all_steps
-  
   ruby_2_3_and_postgres_9_5_14_test:
-    <<: *ruby_2_3_and_postgres_9_5_14_env
-    <<: *run_all_steps
-
-  ruby_2_3_and_postgres_9_6_test:
-    <<: *ruby_2_3_and_postgres_9_6_env
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3-alpine
+      - image: postgres:9.5.14-alpine
     <<: *run_all_steps
 
   ruby_2_3_and_postgres_9_6_10_test:
-    <<: *ruby_2_3_and_postgres_9_6_10_env
-    <<: *run_all_steps
-
-  ruby_2_3_and_postgres_10_test:
-    <<: *ruby_2_3_and_postgres_10_env
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3-alpine
+      - image: postgres:9.6.10-alpine
     <<: *run_all_steps
 
   ruby_2_3_and_postgres_10_5_test:
-    <<: *ruby_2_3_and_postgres_10_5_env
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3-alpine
+      - image: postgres:10.5-alpine
     <<: *run_all_steps
 
   ruby_2_3_and_postgres_11_0_test:
-    <<: *ruby_2_3_and_postgres_11_0_env
+    working_directory: ~/pan_domain/
+    docker:
+      - image: ruby:2.3-alpine
+      - image: postgres:11.0-alpine
     <<: *run_all_steps
+
 
 workflows:
   version: 2
   ruby-2-3-and-postgres-database-tests:
     jobs:
-      - ruby_2_3_and_postgres_9_5_test
-      - ruby_2_3_and_postgres_9_5_14_test:
-          requires:
-            - ruby_2_3_and_postgres_9_5_test
-      - ruby_2_3_and_postgres_9_6_test:
-          requires:
-            - ruby_2_3_and_postgres_9_5_test
+      - ruby_2_3_and_postgres_9_5_14_test
       - ruby_2_3_and_postgres_9_6_10_test:
           requires:
-            - ruby_2_3_and_postgres_9_5_test
-      - ruby_2_3_and_postgres_10_test:
-          requires:
-            - ruby_2_3_and_postgres_9_5_test
+            - ruby_2_3_and_postgres_9_5_14_test
       - ruby_2_3_and_postgres_10_5_test:
           requires:
-            - ruby_2_3_and_postgres_9_5_test
+            - ruby_2_3_and_postgres_9_5_14_test
       - ruby_2_3_and_postgres_11_0_test:
           requires:
-            - ruby_2_3_and_postgres_9_5_test
+            - ruby_2_3_and_postgres_9_5_14_test
