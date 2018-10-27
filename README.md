@@ -1,5 +1,12 @@
 # PanDomain
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/a2acd2f2ef5729e95b70/maintainability)](https://codeclimate.com/github/pangrams/pan_domain/maintainability)
+
+### Availabel domains:
+- Human
+    - Blood Classification System
+    - Blood Group Name
+
 ## Installation
 
 Add this line to your application's Gemfile:
