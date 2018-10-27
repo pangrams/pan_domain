@@ -102,6 +102,16 @@ jobs:
             apk add git
             apk add build-base
             apk add postgresql-dev
+      - run:
+          name: Configure database
+          command: |
+            cd spec/sample_app
+            echo "test:
+              adapter: postgresql
+              database: test_pan_domain_{{ .Environment.CIRCLE_NODE_INDEX }}
+              username: postgres
+              pool: 5
+              host: 127.0.0.1" > config/database.yml
       - run: *run_bundle_install
       - run: *run_all_tests
 
