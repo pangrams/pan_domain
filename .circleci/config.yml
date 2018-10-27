@@ -58,7 +58,7 @@ run-database-configuration: &run_database_configuration
       adapter: postgresql
       host: 127.0.0.1
       username: postgres
-      pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+      pool: 5
       timeout: 5000
       database: test_pan_domain" > config/database.yml
 
