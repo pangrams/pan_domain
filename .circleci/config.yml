@@ -4,6 +4,8 @@ ruby-2-3-and-postgres-9-5-env: &ruby_2_3_and_postgres_9_5_env
   docker:
     - image: ruby:2.3-slim
     - image: postgres:9.5-alpine
+      environment:
+        PGHOST: 127.0.0.1
 
 ruby-2-3-and-postgres-9-5-14-env: &ruby_2_3_and_postgres_9_5_14_env
   working_directory: ~/pan_domain/
@@ -11,12 +13,16 @@ ruby-2-3-and-postgres-9-5-14-env: &ruby_2_3_and_postgres_9_5_14_env
   docker:
     - image: ruby:2.3-slim
     - image: postgres:9.5.14-alpine
+      environment:
+        PGHOST: 127.0.0.1
 
 ruby-2-3-and-postgres-9-6-env: &ruby_2_3_and_postgres_9_6_env
   working_directory: ~/pan_domain/
   docker:
     - image: ruby:2.3-alpine
     - image: postgres:9.6-alpine
+      environment:
+        PGHOST: 127.0.0.1
 
 postgres-9-6-10: &postgres_ver_9_6_10
   docker:
