@@ -15,7 +15,9 @@ module PanDomain
       if ActiveRecord::Base.connection.table_exists?(BloodGroupName.table_name)
         if BloodGroupName::GROUP_NAMES.size != BloodGroupName.count
           BloodGroupName::GROUP_NAMES.each do |group_name_params|
-            system = BloodClassificationSystem.find_by(name: group_name_params[:system_name])
+            system = BloodClassificationSystem.find_by(
+              name: group_name_params[:system_name]
+            )
     
             BloodGroupName.where(
               name: group_name_params[:name], symbol: group_name_params[:symbol]

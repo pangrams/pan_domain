@@ -2,7 +2,9 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 
 task :minitest_specs do
-  system 'ruby spec/lib/generators/test_generate_migrations_generator.rb'
+  Dir.glob('spec/lib/generators/**/test_*.rb').each do |test_file_path|
+    system "ruby #{test_file_path}"
+  end
 end
 
 RSpec::Core::RakeTask.new(:core_specs) do |t|

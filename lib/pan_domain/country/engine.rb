@@ -1,11 +1,11 @@
 require 'pan_domain/engine'
 
 module PanDomain
-  module Human
+  module Country
     class Engine < ::PanDomain::Engine
       isolate_namespace PanDomain
 
-      paths['db/seeds.rb'] = 'db/human_domain/seeds.rb'
+      paths['db/seeds.rb'] = 'db/country_domain/seeds.rb'
     end
   end
 end

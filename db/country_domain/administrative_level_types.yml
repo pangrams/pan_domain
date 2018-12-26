@@ -1,0 +1,41 @@
+[
+  {
+    country_name: "Indonesia",
+    administrative_level_types: [
+      { level: 1, name: 'Province' },
+      { level: 2, name: 'City' },
+      { level: 2, name: 'Regency' },
+      { level: 3, name: 'District' },
+      { level: 3, name: 'Sub-District' },
+      { level: 4, name: 'Village' }
+    ]
+  },
+  {
+    country_name: "United Kingdom",
+    administrative_level_types: [
+      { level: 1, name: 'Region' },
+      { level: 2, name: 'Metropolitan County' },
+      { level: 2, name: 'Non-Metropolitan County' },
+      { level: 2, name: 'Non-Metropolitan County (Two-Tier)' },
+      { level: 3, name: 'Metropolitan District' },
+      { level: 3, name: 'Non-Metropolitan District' },
+      { level: 4, name: 'Parish' }
+    ]
+  },
+  {
+    country_name: "United States",
+    administrative_level_types: [
+      { level: 1, name: 'State' },
+      { level: 2, name: 'District' },
+      { level: 3, name: 'Sub-district' }
+    ]
+  },
+  {
+    country_name: "United States Minor Outlying Islands",
+    administrative_level_types: [
+      { level: 1, name: 'State' },
+      { level: 2, name: 'District' },
+      { level: 3, name: 'Sub-district' }
+    ]
+  }
+]

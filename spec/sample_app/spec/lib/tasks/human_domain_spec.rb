@@ -26,7 +26,7 @@ describe 'human_domain:db:seed' do
   before(:all) do
     # Setup tables
     Rake::Task['human_domain:generate:migrations'].invoke
-    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:migrate'].execute
   end
 
   # Suppress thor messages
